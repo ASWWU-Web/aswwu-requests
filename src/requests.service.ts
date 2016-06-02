@@ -7,7 +7,7 @@ import 'rxjs/Rx';
 import { User } from './user.model';
 
 @Injectable()
-export class AuthService {
+export class RequestService {
   authUser: User;
   API_ENDPOINT: string = "https://aswwu.com/server/";
 
