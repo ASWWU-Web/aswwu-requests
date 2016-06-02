@@ -46,11 +46,13 @@ export class RequestService {
     try {
       data = JSON.parse(data);
     } catch(e) { }
-    if (data) {
+    if (data && data.wwuid) {
       if (data.user) {
         data = data.user;
       }
       this.authUser = new User(data);
+    } else {
+      this.authUser = undefined;
     }
   }
 
@@ -91,6 +93,10 @@ export class RequestService {
   logout(): void {
     window.localStorage.clear();
     this.authUser = undefined;
+  }
+
+  isAuthenticated(): boolean {
+    return this.authUser != undefined;
   }
 
   getUser(): Object {

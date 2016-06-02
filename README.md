@@ -54,7 +54,8 @@ export class LoginComponent {
 
 Where `URI` is simply `/search` or `search` rather than `https://server.com/search`
 
-To check login status at any time call `this.req.verify(Callback(data) { })`
+To verify login status at any time call `this.req.verify(Callback(data) { })`  
+To check authentication status call `this.req.isAuthenticated()`
 
 ## Accessing Current User Data
 The data passed to the callback functions for `this.req.login()` and `this.req.verify()` will be a JavaScript object including the user's:
