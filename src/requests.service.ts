@@ -8,7 +8,7 @@ import { User } from './user.model';
 
 @Injectable()
 export class RequestService {
-  authUser: User;
+  private authUser: User;
   API_ENDPOINT: string = "https://aswwu.com/server/";
 
   constructor(private http: Http) { }
@@ -81,10 +81,10 @@ export class RequestService {
       );
   }
 
-  login(username: string, password: string): void {
+  login(username: string, password: string, cb: any): void {
     this.post("login", {username: username, password: password}, data => {
       this.setAuth(data);
-      window.history.back(); // TODO: check previous URL before going there
+      if (typeof cb == "function") cb(this.getUser());
     }, null);
   }
 
@@ -93,18 +93,25 @@ export class RequestService {
     this.authUser = undefined;
   }
 
-  getUser(): User {
+  getUser(): Object {
     if (!this.authUser) {
-      this.verify();
+      this.verify(null);
     }
-    return this.authUser;
+    return JSON.parse(JSON.stringify(this.authUser || {}));
   }
 
-  verify(): void {
+  verify(cb: any): void {
     if (this.getToken().length > 0) {
-      this.get("verify", data => this.setUser(data), err => this.setAuth({}));
+      this.get("verify", data => {
+        this.setUser(data);
+        if (typeof cb == "function") cb(this.getUser());
+      }, err => {
+        this.setAuth({});
+        if (typeof cb == "function") cb({});
+      });
     } else {
       this.setAuth({});
+      if (typeof cb == "function") cb({});
     }
   }
 }
