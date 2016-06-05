@@ -109,7 +109,7 @@ export class RequestService {
   verify(cb: any): void {
     if (this.getToken().length > 0) {
       this.get("verify", data => {
-        this.setUser(data);
+        this.setUser((data.user || data));
         if (typeof cb == "function") cb(this.getUser());
       }, err => {
         this.setAuth({});
