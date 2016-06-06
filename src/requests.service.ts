@@ -9,6 +9,7 @@ import { User } from './user.model';
 @Injectable()
 export class RequestService {
   private authUser: User;
+  hasVerified: boolean = false;
   API_ENDPOINT: string = "https://aswwu.com/server/";
 
   constructor(private http: Http) { }
@@ -110,13 +111,16 @@ export class RequestService {
     if (this.getToken().length > 0) {
       this.get("verify", data => {
         this.setUser((data.user || data));
+        this.hasVerified = true;
         if (typeof cb == "function") cb(this.getUser());
       }, err => {
         this.setAuth({});
+        this.hasVerified = true;
         if (typeof cb == "function") cb({});
       });
     } else {
       this.setAuth({});
+      this.hasVerified = true;
       if (typeof cb == "function") cb({});
     }
   }
