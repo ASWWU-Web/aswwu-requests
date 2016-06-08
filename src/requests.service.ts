@@ -15,7 +15,7 @@ export class RequestService {
   constructor(private http: Http) { }
 
   private createRequest(uri: string): any {
-    let url = this.API_ENDPOINT;
+    let url = (uri.indexOf("http") == 0 ? uri : this.API_ENDPOINT);
     if (url.split('').pop() != '/' && uri[0] != '/') url += '/';
     url += uri;
 
