@@ -15,9 +15,12 @@ export class RequestService {
   constructor(private http: Http) { }
 
   private createRequest(uri: string): any {
-    let url = (uri.indexOf("http") == 0 ? uri : this.API_ENDPOINT);
-    if (url.split('').pop() != '/' && uri[0] != '/') url += '/';
-    url += uri;
+    let url = uri;
+    if (url.indexOf("http") != 0) {
+      url = this.API_ENDPOINT;
+      if (url.split('').pop() != '/' && uri[0] != '/') url += '/';
+      url += uri;
+    }
 
     let headers = new Headers({
       'Content-Type': 'application/json',
