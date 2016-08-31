@@ -72,11 +72,6 @@ export class RequestService {
   }
 
   post(uri: string, data: any, afterRequest, catchError): void {
-    if (typeof data == "object") {
-      for (var key in data) {
-        data[key] = [data[key]];
-      }
-    }
     let body = JSON.stringify(data);
     let req = this.createRequest(uri);
     this.http.post(req.url, body, req.options)
