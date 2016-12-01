@@ -1,2 +1,2 @@
 
-export * from './src/requests.service';
+export * from './app/requests.service';
